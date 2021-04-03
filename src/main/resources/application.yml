@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /fb
+fb:
+  root: /tmp
+spring:
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+    cache:
+      cachecontrol:
+        cache-public: true
+        max-age: 24h

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+    <title>File Browser</title>
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="images/x-ico" href="../static/img/favicon.ico"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-4.6.0.min.css}" href="../static/css/bootstrap-4.6.0.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-icons-1.4.1.css}" href="../static/css/bootstrap-icons-1.4.1.css">
+    <script type="text/javascript" th:src="@{/js/jquery-3.5.1.slim.min.js}"
+            src="../static/js/jquery-3.5.1.slim.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/popper-1.16.1.min.js}"
+            src="../static/js/popper-1.16.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap-4.6.0.bundle.min.js}"
+            src="../static/js/bootstrap-4.6.0.bundle.min.js"></script>
+</head>
+<body>
+<div class="container-fluid" style="padding: 0">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="margin-bottom: 0">
+            <li class="breadcrumb-item">
+                <a th:unless="${#strings.isEmpty(path)}" th:href="|${contextPath}/browser|"><i
+                        class="bi bi-house-door"></i> Home</a>
+                <span th:if="${#strings.isEmpty(path)}"><i class="bi bi-house-door"></i> Home</span>
+            </li>
+            <li class="breadcrumb-item"
+                th:each="item,stat : ${naves}"
+            >
+                <a th:unless="${stat.last}"
+                   th:href="|${contextPath}/browser/${item.path}|">[[${item.name}]]</a>
+                <span th:if="${stat.last}">[[${item.name}]]</span>
+            </li>
+        </ol>
+    </nav>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr style="line-height: 30px">
+            <th scope="col">名称</th>
+            <th scope="col">大小</th>
+            <th scope="col">修改日期</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:unless="${#strings.isEmpty(path)}" style="line-height: 30px">
+            <td
+                    th:data-id="|${contextPath}/browser${naves.size() < 2 ? '': '/' + naves.get(naves.size() - 2).path}|"
+                    onclick="javascript:location.href = this.getAttribute('data-id')"
+                    style="cursor: pointer"
+            >
+                <i class="bi bi-reply"></i>
+                <span style="margin-left: 2px">返回上一级</span>
+            </td>
+            <td>[[${sizeDisplay}]]</td>
+            <td>[[${lastModifiedDisplay}]]</td>
+            <td></td>
+        </tr>
+        <tr th:each="file : ${files}" style="line-height: 30px">
+            <td
+                    th:data-id="${file.name}"
+                    th:if="${file.directory}"
+                    onclick="toDir(this.getAttribute('data-id'))"
+                    style="cursor: pointer"
+            >
+                <i class="bi bi-folder2-open"></i>
+                <span style="margin-left: 2px">[[${file.name}]]</span>
+            </td>
+            <td th:if="${file.preview}"
+                th:data-id="${file.name}"
+                onclick="viewFile(this.getAttribute('data-id'))"
+                style="cursor: pointer"
+            >
+                <i class="bi bi-file-text"></i>
+                <span style="margin-left: 2px">[[${file.name}]]</span>
+            </td>
+            <td th:unless="${file.directory || file.preview}">
+                <i class="bi bi-file-x"></i>
+                <span style="margin-left: 2px">[[${file.name}]]</span>
+            </td>
+            <td>[[${file.sizeDisplay}]]</td>
+            <td>[[${file.lastModifiedDisplay}]]</td>
+            <td>
+                <button th:unless="${file.directory}" type="button" class="btn btn-outline-primary btn-sm border-0"
+                        th:data-id="${file.name}"
+                        onclick="downloadFile(this.getAttribute('data-id'))"
+                ><i
+                        class="bi bi-download"></i></button>
+                <button th:if="${file.tail}" type="button" class="btn btn-outline-primary btn-sm border-0"
+                        th:data-id="${file.name}"
+                        onclick="tailFile(this.getAttribute('data-id'))"
+                ><i
+                        class="bi bi-camera-video"></i></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:inline="javascript">
+    var contextPath = [[${contextPath}]];
+    var path = [[${path}]];
+    function toDir(dir) {
+        location.href = location.pathname + '/' + dir;
+    }
+    function viewFile(name) {
+        var src = path ? (path + '/' + name) : name;
+        window.open(contextPath + '/view/' + src);
+    }
+    function tailFile(name) {
+        var src = path ? (path + '/' + name) : name;
+        window.open(contextPath + '/tail/' + src);
+    }
+    function downloadFile(name) {
+        var src = path ? (path + '/' + name) : name;
+        location.href = contextPath + '/download?src=' + src;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+html {
+    height: 100%
+}
+
+body {
+    height: 100%
+}
+
+#main {
+    height: 100%;
+    padding: 1rem 0.5rem;
+    overflow-y: auto
+}
+
+.pre-content {
+    white-space:pre-wrap;
+    white-space:-moz-pre-wrap;
+    white-space:-pre-wrap;
+    white-space:-o-pre-wrap;
+    word-wrap:break-word;
+}
