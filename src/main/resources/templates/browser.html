@@ -49,7 +49,7 @@
                     style="cursor: pointer"
             >
                 <i class="bi bi-reply"></i>
-                <span style="margin-left: 2px">返回上一级</span>
+                <span style="margin-left: 2px">返回上级</span>
             </td>
             <td>[[${sizeDisplay}]]</td>
             <td>[[${lastModifiedDisplay}]]</td>
@@ -96,8 +96,8 @@
     </table>
 </div>
 <script th:inline="javascript">
-    var contextPath = [[${contextPath}]];
-    var path = [[${path}]];
+    var contextPath = [[${ contextPath }]];
+    var path = [[${ path }]];
     function toDir(dir) {
         location.href = location.pathname + '/' + dir;
     }

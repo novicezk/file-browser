@@ -1,0 +1,52 @@
+html {
+    height: 100%
+}
+
+body {
+    height: 100%
+}
+
+.login-container {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+    color: #2c3e50;
+    min-height: 100%;
+    background: #ffffff url(../img/background.svg) no-repeat 50%;
+    background-size: 100%;
+    position: relative;
+    padding: 150px 0;
+}
+
+.top {
+    line-height: 50px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 33px;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    position: relative;
+    top: 8px;
+    margin-left: 10px;
+}
+
+.error {
+    font-size: 16px;
+    color: red;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+
+.main {
+    min-width: 260px;
+    width: 368px;
+    margin: 0 auto;
+}
+
+.copyright {
+    margin-top: 20px;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 16px;
+}
