@@ -34,7 +34,7 @@ public class TailController {
 		String target = StrUtil.replace(this.request.getServletPath(), "/tail/", "");
 		model.addAttribute("contextPath", this.request.getContextPath());
 		model.addAttribute("target", target);
-		File file = FileUtil.file(this.properties.getRoot() + "/" + target);
+		File file = FileUtil.file(this.properties.getRoot() + File.separator + target);
 		String suffix = FileUtil.getSuffix(target);
 		if (!file.exists()) {
 			model.addAttribute("error", "文件不存在");
@@ -49,7 +49,7 @@ public class TailController {
 	@ResponseBody
 	@GetMapping("/tail-sse")
 	public Object sse(@RequestParam String target) throws IOException {
-		File file = FileUtil.file(this.properties.getRoot() + "/" + target);
+		File file = FileUtil.file(this.properties.getRoot() + File.separator + target);
 		String suffix = FileUtil.getSuffix(target);
 		if (!file.exists()) {
 			return new ResponseEntity<>("文件不存在", HttpStatus.NOT_FOUND);

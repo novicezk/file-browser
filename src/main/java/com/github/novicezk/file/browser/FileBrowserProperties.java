@@ -13,9 +13,13 @@ public class FileBrowserProperties {
 	 */
 	private String root = "/tmp";
 	/**
-	 * 是否需要登录.
+	 * 文件访问是否需要登录.
 	 */
 	private boolean accessAuthenticated = false;
+	/**
+	 * 登陆后是否允许更改文件，包括上传文件、删除文件、创建目录等.
+	 */
+	private boolean modifiable = false;
 	/**
 	 * 用户名.
 	 */
