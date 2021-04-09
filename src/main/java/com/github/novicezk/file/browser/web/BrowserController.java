@@ -12,6 +12,8 @@ import com.github.novicezk.file.browser.pojo.NavVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.comparator.BooleanComparator;
@@ -43,6 +45,11 @@ public class BrowserController {
 		}
 		model.addAttribute("contextPath", this.request.getContextPath());
 		model.addAttribute("path", path);
+		model.addAttribute("modifiable", this.properties.isModifiable());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		model.addAttribute("username", username);
+		model.addAttribute("authenticated", authentication.isAuthenticated() && !"anonymousUser".equals(username));
 		model.addAttribute("naves", generateNaves(path));
 		var uploadMaxsize = this.multipartProperties.getMaxFileSize().toBytes();
 		model.addAttribute("uploadMaxsize", uploadMaxsize);

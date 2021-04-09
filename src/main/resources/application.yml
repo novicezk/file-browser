@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /fb
 fb:
-  root: /tmp
+  root: /data
 spring:
   resources:
     chain:

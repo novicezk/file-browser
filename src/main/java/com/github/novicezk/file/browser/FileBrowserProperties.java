@@ -17,9 +17,9 @@ public class FileBrowserProperties {
 	 */
 	private boolean accessAuthenticated = false;
 	/**
-	 * 登陆后是否允许更改文件，包括上传文件、删除文件、创建目录等.
+	 * 是否允许更改文件（登陆后），包括上传文件、删除文件、创建目录等.
 	 */
-	private boolean modifiable = false;
+	private boolean modifiable = true;
 	/**
 	 * 用户名.
 	 */

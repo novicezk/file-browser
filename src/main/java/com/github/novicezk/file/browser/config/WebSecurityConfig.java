@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			logoutConfig.logoutSuccessUrl("/browser");
 		}
 		logoutConfig.permitAll();
-		http.rememberMe().key("file-browser");
+		http.rememberMe().key("file-browser").and().csrf().disable();
 	}
 
 	@Bean
