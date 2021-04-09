@@ -15,6 +15,22 @@
             src="../static/js/bootstrap-4.6.0.bundle.min.js"></script>
 </head>
 <body>
+<div class="modal fade" id="addFolderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">创建文件夹</h5>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" id="folderName" type="text" placeholder="名称">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="mkdir()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container-fluid" style="padding: 0">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="margin-bottom: 0">
@@ -30,6 +46,10 @@
                    th:href="|${contextPath}/browser/${item.path}|">[[${item.name}]]</a>
                 <span th:if="${stat.last}">[[${item.name}]]</span>
             </li>
+            <button type="button" class="btn btn-link"
+                    th:if="${authenticated && modifiable}"
+                    style="padding: 0 50px; margin-left: 5px" data-toggle="modal" data-target="#addFolderModal">
+                <i class="bi bi-folder-plus"></i></button>
         </ol>
         <div th:if="${modifiable}" style="right: 20px; top: 8px; position: absolute;">
             <button type="button" class="btn btn-link btn-sm"
@@ -108,7 +128,8 @@
                         onclick="tailFile(this.getAttribute('data-id'))"
                 ><i
                         class="bi bi-camera-video"></i></button>
-                <button th:if="${authenticated && modifiable}" type="button" class="btn btn-outline-danger btn-sm border-0"
+                <button th:if="${authenticated && modifiable}" type="button"
+                        class="btn btn-outline-danger btn-sm border-0"
                         th:data-id="${file.name}"
                         onclick="deleteFile(this.getAttribute('data-id'))"
                 ><i
@@ -137,17 +158,22 @@
         location.href = contextPath + '/download?src=' + src;
     }
     function deleteFile(name) {
-        var src = path ? (path + '/' + name) : name;
-        $.ajax({
-            url: contextPath + '/delete?src=' + src,
-            type: 'DELETE'
-        }).done(function(res){
-            if (res.code === 1) {
-                location.reload();
-            } else {
-                alert(res.description);
-            }
-        });
+        if(confirm("确认删除?")){
+            var src = path ? (path + '/' + name) : name;
+            $.ajax({
+                url: contextPath + '/delete?src=' + src,
+                type: 'DELETE'
+            }).done(function(res){
+                if (res.code === 1) {
+                    location.reload();
+                } else {
+                    alert(res.description);
+                }
+            });
+        }
+    }
+    function mkdir(){
+
     }
 </script>
 </body>
