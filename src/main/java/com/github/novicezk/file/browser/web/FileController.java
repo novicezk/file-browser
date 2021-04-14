@@ -92,7 +92,7 @@ public class FileController {
 		}
 	}
 
-	@DeleteMapping("/mkdir")
+	@PostMapping("/mkdir")
 	public Message<Void> mkdir(@RequestParam String name, @RequestParam String src) {
 		File dir = FileUtil.file(this.properties.getRoot() + File.separator + src);
 		if (!dir.exists()) {

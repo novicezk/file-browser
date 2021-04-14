@@ -5,14 +5,13 @@
     <meta charset="utf-8">
     <title>File Browser</title>
     <link rel="icon" th:href="@{/img/favicon.ico}" type="images/x-ico" href="../static/img/favicon.ico"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrap-4.6.0.min.css}" href="../static/css/bootstrap-4.6.0.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-5.0.0-beta3.min.css}"
+          href="../static/css/bootstrap-5.0.0-beta3.min.css">
     <link rel="stylesheet" th:href="@{/css/bootstrap-icons-1.4.1.css}" href="../static/css/bootstrap-icons-1.4.1.css">
     <script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}"
             src="../static/js/jquery-3.5.1.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/popper-1.16.1.min.js}"
-            src="../static/js/popper-1.16.1.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap-4.6.0.bundle.min.js}"
-            src="../static/js/bootstrap-4.6.0.bundle.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap-5.0.0-beta3.bundle.min.js}"
+            src="../static/js/bootstrap-5.0.0-beta3.bundle.min.js"></script>
 </head>
 <body>
 <div class="modal fade" id="addFolderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -33,7 +32,7 @@
 </div>
 <div class="container-fluid" style="padding: 0">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" style="margin-bottom: 0">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a th:unless="${#strings.isEmpty(path)}" th:href="|${contextPath}/browser|"><i
                         class="bi bi-house-door"></i> Home</a>
@@ -48,7 +47,7 @@
             </li>
             <button type="button" class="btn btn-link"
                     th:if="${authenticated && modifiable}"
-                    style="padding: 0 50px; margin-left: 5px" data-toggle="modal" data-target="#addFolderModal">
+                    style="padding: 0 5px; margin-left: 5px" data-bs-toggle="modal" data-bs-target="#addFolderModal">
                 <i class="bi bi-folder-plus"></i></button>
         </ol>
         <div th:if="${modifiable}" style="right: 20px; top: 8px; position: absolute;">
@@ -63,15 +62,15 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     [[${username}]]
                 </button>
-                <div class="dropdown-menu" style="min-width: 0; padding: 5px" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" style="padding: 5px 5px; font-size: 14px"
-                       th:href="|${contextPath}/logout|">Logout</a>
-                </div>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" th:href="|${contextPath}/logout|">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
     <table class="table table-hover">
-        <thead class="thead-dark">
+        <thead class="table-dark">
         <tr style="line-height: 30px">
             <th scope="col">名称</th>
             <th scope="col">大小</th>
@@ -173,7 +172,17 @@
         }
     }
     function mkdir(){
-
+        var name = document.querySelector("#folderName").value;
+            $.ajax({
+                url: contextPath + '/mkdir?src=' + path + '&name=' + name,
+                type: 'POST'
+            }).done(function(res){
+                if (res.code === 1) {
+                    location.reload();
+                } else {
+                    alert(res.description);
+                }
+            });
     }
 </script>
 </body>
