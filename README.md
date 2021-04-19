@@ -24,7 +24,7 @@ http://www.uvlai.ltd/fb/browser
 - ![tail](https://novicezk.github.io/camera-video.svg) 跟踪文件的持续追加内容
 
 ## 注意事项
-- 基于java15开发，不保证兼容java15之前版本
+- 基于java15开发
 - 文件跟踪功能，追加内容输出到页面上有几秒的延迟
 
 ## 配置项

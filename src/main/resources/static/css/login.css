@@ -18,6 +18,10 @@ body {
     padding: 150px 0;
 }
 
+.form-group {
+    margin-bottom: 1rem;
+}
+
 .top {
     line-height: 50px;
     margin-bottom: 20px;

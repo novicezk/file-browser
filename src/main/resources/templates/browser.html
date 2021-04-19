@@ -24,51 +24,64 @@
                 <input class="form-control" id="folderName" type="text" placeholder="名称">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="mkdir()">确定</button>
             </div>
         </div>
     </div>
 </div>
 <div class="container-fluid" style="padding: 0">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a th:unless="${#strings.isEmpty(path)}" th:href="|${contextPath}/browser|"><i
-                        class="bi bi-house-door"></i> Home</a>
-                <span th:if="${#strings.isEmpty(path)}"><i class="bi bi-house-door"></i> Home</span>
-            </li>
-            <li class="breadcrumb-item"
-                th:each="item,stat : ${naves}"
-            >
-                <a th:unless="${stat.last}"
-                   th:href="|${contextPath}/browser/${item.path}|">[[${item.name}]]</a>
-                <span th:if="${stat.last}">[[${item.name}]]</span>
-            </li>
-            <button type="button" class="btn btn-link"
-                    th:if="${authenticated && modifiable}"
-                    style="padding: 0 5px; margin-left: 5px" data-bs-toggle="modal" data-bs-target="#addFolderModal">
-                <i class="bi bi-folder-plus"></i></button>
-        </ol>
-        <div th:if="${modifiable}" style="right: 20px; top: 8px; position: absolute;">
-            <button type="button" class="btn btn-link btn-sm"
-                    th:unless="${authenticated}"
-                    th:data-id="|${contextPath}/login|"
-                    onclick="javascript:location.href = this.getAttribute('data-id')"
-            > Login
-            </button>
-            <div class="dropdown" th:if="${authenticated}">
-                <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    [[${username}]]
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" th:href="|${contextPath}/logout|">Logout</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="margin-bottom: 0; padding: 2px 0">
+                    <li class="breadcrumb-item">
+                        <a th:unless="${#strings.isEmpty(path)}" th:href="|${contextPath}/browser|"><i
+                                class="bi bi-house-door"></i> Home</a>
+                        <span th:if="${#strings.isEmpty(path)}"><i class="bi bi-house-door"></i> Home</span>
                     </li>
-                </ul>
-            </div>
+                    <li class="breadcrumb-item"
+                        th:each="item,stat : ${naves}"
+                    >
+                        <a th:unless="${stat.last}"
+                           th:href="|${contextPath}/browser/${item.path}|">[[${item.name}]]</a>
+                        <span th:if="${stat.last}">[[${item.name}]]</span>
+                    </li>
+                    <button type="button" class="btn btn-link"
+                            th:if="${authenticated && modifiable}"
+                            style="padding: 0 5px; margin-left: 5px" data-bs-toggle="modal" data-bs-target="#addFolderModal">
+                        <i class="bi bi-folder-plus"></i></button>
+                </ol>
+                <div th:if="${modifiable}" style="right: 20px; top: 8px; position: absolute;">
+                    <button type="button" class="btn btn-link btn-sm"
+                            th:unless="${authenticated}"
+                            th:data-id="|${contextPath}/login|"
+                            onclick="javascript:location.href = this.getAttribute('data-id')"
+                    > Login
+                    </button>
+                    <div class="dropdown" th:if="${authenticated}">
+                        <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            [[${username}]]
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" th:href="|${contextPath}/logout|">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
     </nav>
+    <div th:if="${authenticated && modifiable}" class="container" style="margin: .5rem 0">
+        <div class="row">
+            <div class="col-6">
+                <input class="form-control" id="formFile" type="file">
+            </div>
+            <div class="col" style="padding-left: 0">
+                <button type="button" class="btn btn-secondary" onclick="uploadFile()"><i class="bi bi-upload"></i> 上传</button>
+            </div>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead class="table-dark">
         <tr style="line-height: 30px">
@@ -183,6 +196,21 @@
                     alert(res.description);
                 }
             });
+    }
+    function uploadFile(){
+        var formData = new FormData();
+        formData.append("file", $("#formFile")[0].files[0]);
+        $.ajax({
+            url: contextPath + '/mkdir?src=' + path + '&name=' + name,
+            type: 'POST',
+            data: formData
+        }).done(function(res){
+            if (res.code === 1) {
+                location.reload();
+            } else {
+                alert(res.description);
+            }
+        });
     }
 </script>
 </body>

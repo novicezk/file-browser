@@ -5,13 +5,13 @@
     <title>File Tail</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" th:href="@{/img/favicon.ico}" type="images/x-ico" href="../static/img/favicon.ico"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrap-4.6.0.min.css}" href="../static/css/bootstrap-4.6.0.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-5.0.0-beta3.min.css}"  href="../static/css/bootstrap-5.0.0-beta3.min.css">
     <link rel="stylesheet" th:href="@{/css/tail.css}" href="../static/css/tail.css">
 </head>
 <body>
-<div class="jumbotron jumbotron-fluid" id="main">
-    <h4 class="display-5">[[${target}]]<span style="color: red; margin-left: 1rem"
-                                             th:if="${error} != null">[[${error}]]</span></h4>
+<div id="main">
+    <p class="h5">[[${target}]]<span style="color: red; margin-left: 1rem"
+                                             th:if="${error} != null">[[${error}]]</span></p>
     <pre id="content" class="pre-content" th:if="${error} == null">
     </pre>
 </div>
