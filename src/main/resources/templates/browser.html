@@ -49,7 +49,8 @@
                     </li>
                     <button type="button" class="btn btn-link"
                             th:if="${authenticated && modifiable}"
-                            style="padding: 0 5px; margin-left: 5px" data-bs-toggle="modal" data-bs-target="#addFolderModal">
+                            style="padding: 0 5px; margin-left: 5px" data-bs-toggle="modal"
+                            data-bs-target="#addFolderModal">
                         <i class="bi bi-folder-plus"></i></button>
                 </ol>
                 <div th:if="${modifiable}" style="right: 20px; top: 8px; position: absolute;">
@@ -60,7 +61,8 @@
                     > Login
                     </button>
                     <div class="dropdown" th:if="${authenticated}">
-                        <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                             [[${username}]]
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -73,14 +75,19 @@
         </div>
     </nav>
     <div th:if="${authenticated && modifiable}" class="container" style="margin: .5rem 0">
-        <div class="row">
-            <div class="col-6">
-                <input class="form-control" id="formFile" type="file">
+        <form id="file-form">
+            <div class="row">
+                <div class="col-6">
+                    <input class="form-control" name="file" type="file">
+                    <input name="src" th:value="${path}" hidden>
+                </div>
+                <div class="col" style="padding-left: 0">
+                    <button type="button" class="btn btn-secondary" onclick="uploadFile()"><i class="bi bi-upload"></i>
+                        上传
+                    </button>
+                </div>
             </div>
-            <div class="col" style="padding-left: 0">
-                <button type="button" class="btn btn-secondary" onclick="uploadFile()"><i class="bi bi-upload"></i> 上传</button>
-            </div>
-        </div>
+        </form>
     </div>
     <table class="table table-hover">
         <thead class="table-dark">
@@ -198,12 +205,13 @@
             });
     }
     function uploadFile(){
-        var formData = new FormData();
-        formData.append("file", $("#formFile")[0].files[0]);
+        var data = new FormData($('#file-form')[0]);
         $.ajax({
-            url: contextPath + '/mkdir?src=' + path + '&name=' + name,
+            url: contextPath + '/upload',
             type: 'POST',
-            data: formData
+            processData: false,
+            contentType: false,
+            data: data
         }).done(function(res){
             if (res.code === 1) {
                 location.reload();
