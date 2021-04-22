@@ -11,6 +11,9 @@ import com.github.novicezk.file.browser.pojo.FileVO;
 import com.github.novicezk.file.browser.pojo.NavVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.comparator.BooleanComparator;
@@ -31,6 +34,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BrowserController {
 	private final FileBrowserProperties properties;
+	private final MultipartProperties multipartProperties;
 	private final HttpServletRequest request;
 
 	@GetMapping({"/browser/**", "/browser**"})
@@ -41,8 +45,16 @@ public class BrowserController {
 		}
 		model.addAttribute("contextPath", this.request.getContextPath());
 		model.addAttribute("path", path);
+		model.addAttribute("modifiable", this.properties.isModifiable());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		model.addAttribute("username", username);
+		model.addAttribute("authenticated", authentication.isAuthenticated() && !"anonymousUser".equals(username));
 		model.addAttribute("naves", generateNaves(path));
-		String realPath = this.properties.getRoot() + "/" + path;
+		var uploadMaxsize = this.multipartProperties.getMaxFileSize().toBytes();
+		model.addAttribute("uploadMaxsize", uploadMaxsize);
+		model.addAttribute("uploadMaxsizeDisplay", FileUtil.readableFileSize(uploadMaxsize));
+		String realPath = this.properties.getRoot() + File.separator + path;
 		if (!FileUtil.exist(realPath)) {
 			model.addAttribute("files", Collections.EMPTY_LIST);
 			return "browser";
@@ -62,10 +74,10 @@ public class BrowserController {
 	private List<NavVO> generateNaves(String path) {
 		List<NavVO> naves = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
-		String[] pathSplit = StrUtil.split(path, "/");
+		String[] pathSplit = StrUtil.split(path, File.separator);
 		for (int i = 0; i < pathSplit.length; i++) {
 			if (i > 0) {
-				sb.append("/");
+				sb.append(File.separator);
 			}
 			sb.append(pathSplit[i]);
 			NavVO navVO = new NavVO();

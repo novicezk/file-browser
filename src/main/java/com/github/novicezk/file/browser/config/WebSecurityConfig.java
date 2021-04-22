@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			logoutConfig.logoutSuccessUrl("/browser");
 		}
 		logoutConfig.permitAll();
+		http.rememberMe().key("file-browser").and().csrf().disable();
 	}
 
 	@Bean
@@ -51,4 +52,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.build();
 		return new InMemoryUserDetailsManager(user);
 	}
+
 }

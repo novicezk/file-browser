@@ -5,11 +5,10 @@
 ## 主要特性
 - 便捷的文件、目录信息浏览
 - 支持文件在线预览、下载
+- 支持新建文件夹、删除文件、上传文件（登陆后）
 - 可跟踪日志类型文件的持续追加内容
 - 自适应移动端
 - 使用spring-boot，可直接jar包运行
-
-ps: 由于提供了文件预览及动态缓存，可以放置静态资源，作为前端页面服务
 
 ## 在线示例
 http://www.uvlai.ltd/fb/browser
@@ -24,12 +23,13 @@ http://www.uvlai.ltd/fb/browser
 - ![tail](https://novicezk.github.io/camera-video.svg) 跟踪文件的持续追加内容
 
 ## 注意事项
-- 基于java15开发，不保证兼容java15之前版本
+- 基于java15开发
 - 文件跟踪功能，追加内容输出到页面上有几秒的延迟
 
 ## 配置项
 - `fb.root` 开放的主目录，默认/tmp
-- `fb.access-authenticated` 是否需要登录，默认false
+- `fb.access-authenticated` 文件访问是否需要登录，默认false
+- `fb.modifiable` 是否允许更改文件（登陆后），包括上传文件、删除文件、创建目录等，默认true
 - `fb.username` 用户名，默认 admin
 - `fb.password` 密码，默认 novice@2021
 - `fb.preview-file-exts` 可预览的文件类型，默认配置了常见的类型

@@ -18,6 +18,10 @@ body {
     padding: 150px 0;
 }
 
+.form-group {
+    margin-bottom: 1rem;
+}
+
 .top {
     line-height: 50px;
     margin-bottom: 20px;
@@ -30,13 +34,6 @@ body {
     position: relative;
     top: 8px;
     margin-left: 10px;
-}
-
-.error {
-    font-size: 16px;
-    color: red;
-    margin-top: 12px;
-    margin-bottom: 20px;
 }
 
 .main {
