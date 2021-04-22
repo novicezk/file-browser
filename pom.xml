@@ -11,7 +11,7 @@
 
     <groupId>com.github.novicezk</groupId>
     <artifactId>file-browser</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <name>File Browser</name>
     <url>https://github.com/novicezk/file-browser</url>
 
