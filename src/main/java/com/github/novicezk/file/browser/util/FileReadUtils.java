@@ -2,7 +2,7 @@ package com.github.novicezk.file.browser.util;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileMode;
-import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.text.CharPool;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class FileReadUtils {
 					break;
 				}
 				c = accessFile.read();
-				if (c == CharUtil.LF || c == CharUtil.CR) {
+				if (c == CharPool.LF || c == CharPool.CR) {
 					String line = FileUtil.readLine(accessFile, StandardCharsets.UTF_8);
 					if (null != line) {
 						lines.add(line);

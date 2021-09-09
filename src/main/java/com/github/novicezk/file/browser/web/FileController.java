@@ -39,7 +39,7 @@ public class FileController {
 
 	@GetMapping("/view/**")
 	public void view() throws IOException {
-		String src = StrUtil.replace(this.request.getServletPath(), "/view/", "");
+		String src = StrUtil.removePrefix(this.request.getServletPath(), "/view/");
 		File file = FileUtil.file(this.properties.getRoot() + File.separator + src);
 		if (!file.exists()) {
 			this.response.setStatus(HttpServletResponse.SC_NOT_FOUND);

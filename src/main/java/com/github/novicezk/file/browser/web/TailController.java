@@ -31,7 +31,7 @@ public class TailController {
 
 	@GetMapping("/tail/**")
 	public String tail(Model model, @RequestParam(required = false, defaultValue = "20") int n) throws IOException {
-		String target = StrUtil.replace(this.request.getServletPath(), "/tail/", "");
+		String target = StrUtil.removePrefix(this.request.getServletPath(), "/tail/");
 		model.addAttribute("contextPath", this.request.getContextPath());
 		model.addAttribute("target", target);
 		File file = FileUtil.file(this.properties.getRoot() + File.separator + target);

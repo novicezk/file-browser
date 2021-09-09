@@ -5,13 +5,13 @@ server:
 fb:
   root: /data
 spring:
-  resources:
-    chain:
-      strategy:
-        content:
-          enabled: true
-          paths: /**
-    cache:
-      cachecontrol:
-        cache-public: true
-        max-age: 24h
+  web:
+    resources:
+      chain:
+        strategy:
+          content:
+            enabled: true
+      cache:
+        cachecontrol:
+          cache-public: true
+          max-age: 24h

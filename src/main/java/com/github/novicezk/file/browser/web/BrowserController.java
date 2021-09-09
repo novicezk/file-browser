@@ -39,7 +39,7 @@ public class BrowserController {
 
 	@GetMapping({"/browser/**", "/browser**"})
 	public String browser(Model model, @RequestParam(required = false, defaultValue = "name,asc") String sort) {
-		String path = StrUtil.replace(this.request.getServletPath(), "/browser", "");
+		String path = StrUtil.removePrefix(this.request.getServletPath(), "/browser");
 		if (StrUtil.startWith(path, "/")) {
 			path = path.substring(1);
 		}
@@ -56,7 +56,7 @@ public class BrowserController {
 		model.addAttribute("uploadMaxsizeDisplay", FileUtil.readableFileSize(uploadMaxsize));
 		String realPath = this.properties.getRoot() + File.separator + path;
 		if (!FileUtil.exist(realPath)) {
-			model.addAttribute("files", Collections.EMPTY_LIST);
+			model.addAttribute("files", Collections.emptyList());
 			return "browser";
 		}
 		String property = StrUtil.subBefore(sort, ",", false);
