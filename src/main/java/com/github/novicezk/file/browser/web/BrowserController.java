@@ -74,14 +74,14 @@ public class BrowserController {
 	private List<NavVO> generateNaves(String path) {
 		List<NavVO> naves = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
-		String[] pathSplit = StrUtil.split(path, File.separator);
-		for (int i = 0; i < pathSplit.length; i++) {
+		List<String> pathSplit = StrUtil.split(path, File.separator);
+		for (int i = 0; i < pathSplit.size(); i++) {
 			if (i > 0) {
 				sb.append(File.separator);
 			}
-			sb.append(pathSplit[i]);
+			sb.append(pathSplit.get(i));
 			NavVO navVO = new NavVO();
-			navVO.setName(pathSplit[i]);
+			navVO.setName(pathSplit.get(i));
 			navVO.setPath(sb.toString());
 			naves.add(navVO);
 		}

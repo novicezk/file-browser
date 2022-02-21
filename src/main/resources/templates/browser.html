@@ -161,28 +161,35 @@
 <script th:inline="javascript">
     var contextPath = [[${ contextPath }]];
     var path = [[${ path }]];
+    var uploadMaxsize = [[${ uploadMaxsize }]];
+    var uploadMaxsizeDisplay = [[${ uploadMaxsizeDisplay }]];
+
     function toDir(dir) {
         location.href = location.pathname + '/' + dir;
     }
+
     function viewFile(name) {
         var src = path ? (path + '/' + name) : name;
         window.open(contextPath + '/view/' + src);
     }
+
     function tailFile(name) {
         var src = path ? (path + '/' + name) : name;
         window.open(contextPath + '/tail/' + src);
     }
+
     function downloadFile(name) {
         var src = path ? (path + '/' + name) : name;
         location.href = contextPath + '/download?src=' + src;
     }
+
     function deleteFile(name) {
-        if(confirm("确认删除?")){
+        if (confirm("确认删除?")) {
             var src = path ? (path + '/' + name) : name;
             $.ajax({
                 url: contextPath + '/delete?src=' + src,
                 type: 'DELETE'
-            }).done(function(res){
+            }).done(function (res) {
                 if (res.code === 1) {
                     location.reload();
                 } else {
@@ -191,20 +198,27 @@
             });
         }
     }
-    function mkdir(){
+
+    function mkdir() {
         var name = document.querySelector("#folderName").value;
-            $.ajax({
-                url: contextPath + '/mkdir?src=' + path + '&name=' + name,
-                type: 'POST'
-            }).done(function(res){
-                if (res.code === 1) {
-                    location.reload();
-                } else {
-                    alert(res.description);
-                }
-            });
+        $.ajax({
+            url: contextPath + '/mkdir?src=' + path + '&name=' + name,
+            type: 'POST'
+        }).done(function (res) {
+            if (res.code === 1) {
+                location.reload();
+            } else {
+                alert(res.description);
+            }
+        });
     }
-    function uploadFile(){
+
+    function uploadFile() {
+        var size = $("input[name='file']")[0].files[0].size;
+        if (size > uploadMaxsize) {
+            alert("上传文件大小超过限制[" + uploadMaxsizeDisplay + "]");
+            return;
+        }
         var data = new FormData($('#file-form')[0]);
         $.ajax({
             url: contextPath + '/upload',
@@ -212,7 +226,7 @@
             processData: false,
             contentType: false,
             data: data
-        }).done(function(res){
+        }).done(function (res) {
             if (res.code === 1) {
                 location.reload();
             } else {

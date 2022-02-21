@@ -3,15 +3,18 @@ server:
   servlet:
     context-path: /fb
 fb:
-  root: /data
+  root: /tmp
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   web:
-    resources:
-      chain:
-        strategy:
-          content:
-            enabled: true
-      cache:
-        cachecontrol:
-          cache-public: true
-          max-age: 24h
+    chain:
+      strategy:
+        content:
+          enabled: true
+    cache:
+      cachecontrol:
+        cache-public: true
+        max-age: 24h

@@ -23,7 +23,7 @@ http://www.uvlai.ltd/fb/browser
 - ![tail](https://novicezk.github.io/camera-video.svg) 跟踪文件的持续追加内容
 
 ## 注意事项
-- 基于java15开发
+- 基于java17开发
 - 文件跟踪功能，追加内容输出到页面上有几秒的延迟
 
 ## 配置项
@@ -34,3 +34,5 @@ http://www.uvlai.ltd/fb/browser
 - `fb.password` 密码，默认 novice@2021
 - `fb.preview-file-exts` 可预览的文件类型，默认配置了常见的类型
 - `fb.tail-file-exts` 可监控的文件类型，默认配置了txt,log
+- `spring.servlet.multipart.max-file-size` 单个文件上传的限制大小，默认10M
+- `spring.servlet.multipart.max-request-size` 文件上传的限制大小，默认10M
