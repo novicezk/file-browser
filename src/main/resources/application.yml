@@ -10,11 +10,13 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   web:
-    chain:
-      strategy:
-        content:
-          enabled: true
-    cache:
-      cachecontrol:
-        cache-public: true
-        max-age: 24h
+    resources:
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: /**
+      cache:
+        cachecontrol:
+          cache-public: true
+          max-age: 24h
